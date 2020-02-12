@@ -1,26 +1,71 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+//import logo from './logo.svg';
 import './App.css';
+import { CardList } from './components/cardList/cardList';
+import { SearchBox } from './components/searchBox/searchBox';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(){
+    super();
+
+    this.state = {
+      string: 'Hello boo',
+      bob: 0,
+      monsters: [
+        
+      ],
+      searchFilter: ''
+
+    };
+  }
+
+ changeBob = (name) => {
+
+  console.log(name);
+
+  var b = this.state.bob;
+
+  this.setState({bob: ++b, string: name});
+ }
+
+ handleChange = (x) => {
+
+  //var b = this.state.bob;
+
+  this.setState({searchFilter: x.target.value}, () => console.log(this.state))
+ }
+ 
+ componentDidMount(){
+   fetch('https://jsonplaceholder.typicode.com/users')
+   .then(res=>res.json())
+   .then(usrs => this.setState({monsters: usrs}));
+ }
+
+  render(){
+
+    const { monsters, searchFilter } = this.state;
+    const filteredMonsters = monsters.filter(x=>x.name.toLowerCase().includes(searchFilter.toLowerCase()) )
+
+      return (
+        <div className="App">
+          
+          <h1>Monsters Rolodex</h1>
+
+          <h1>{`Found ${this.state.string} @ ${this.state.bob}`}</h1>
+
+          <SearchBox 
+            placeholder='search monsters bro' 
+            handleChange={this.handleChange}
+          />
+
+          <CardList monsters={filteredMonsters} cardClick={this.changeBob}/>
+      
+          
+          <button onClick={this.changeBob}>yo</button>
+          
+        </div>
+      );
+  }
 }
 
 export default App;

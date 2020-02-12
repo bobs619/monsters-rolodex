@@ -2,7 +2,11 @@
   text-align: center;
 }
 
-.App-logo {
+h1{
+  font-family: 'Bigshot One', cursive;
+}
+
+/*.App-logo {
   height: 40vmin;
   pointer-events: none;
 }
@@ -36,3 +40,4 @@
     transform: rotate(360deg);
   }
 }
+*/
